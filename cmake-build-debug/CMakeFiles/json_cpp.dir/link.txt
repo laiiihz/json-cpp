@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/json_cpp.dir/main.cpp.o  -o json_cpp 
