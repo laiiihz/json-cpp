@@ -59,6 +59,6 @@ static int test_pass=0;     //测试通过数
     int main(){
         test_parse();
         std::cout<<test_pass<<"/"<<test_count<<"("
-        <<std::fixed<<std::setprecision(10)<<test_pass*100.0/test_count<<"% passed)";
+        <<std::fixed<<std::setprecision(2)<<test_pass*100.0/test_count<<"% passed)";
         return main_ret;
     }

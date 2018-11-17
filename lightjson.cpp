@@ -26,7 +26,10 @@ static int light_parse_null(light_context* c,light_value* value){
 }
 static int light_parse_true(light_context* c,light_value* value){
     EXPECT(c,'t');
-    //todo fix light parse true
+    if(c->json[0]!='r'||c->json[1]!='u'||c->json[2]!='e')return LIGHT_PARSE_INVALID_VALUE;
+    c->json+=3;
+    value->type=LIGHT_TRUE;
+    return LIGHT_PARSE_OK;
 }
 
 //todo add light parse false
