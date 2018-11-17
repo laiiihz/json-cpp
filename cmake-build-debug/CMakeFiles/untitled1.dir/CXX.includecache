@@ -6,12 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/laihz/gitRepo/json-cpp/lightjson.cpp
-lightjson.h
-/home/laihz/gitRepo/json-cpp/lightjson.h
-assert.h
--
-
 /home/laihz/gitRepo/json-cpp/lightjson.h
 iostream
 -
