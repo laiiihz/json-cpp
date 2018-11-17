@@ -32,11 +32,21 @@ static int light_parse_true(light_context* c,light_value* value){
     return LIGHT_PARSE_OK;
 }
 
+static int light_parse_false(light_context* c,light_value* value){
+    EXPECT(c,'f');
+    if(c->json[0]!='a'||c->json[1]!='l'||c->json[2]!='s'||c->json[3]!='e')return LIGHT_PARSE_INVALID_VALUE;
+    c->json+=4;
+    value->type=LIGHT_FALSE;
+    return LIGHT_PARSE_OK;
+}
+
 //todo add light parse false
 
 static int light_parse_value(light_context* c,light_value* value){
     switch (*c->json){
         case 'n':return light_parse_null(c,value);
+        case 't':return light_parse_true(c,value);
+        case 'f':return light_parse_false(c,value);
         case '\0':return LIGHT_PARSE_EXPECT_VALUE;
         default:return LIGHT_PARSE_INVALID_VALUE;
     }
