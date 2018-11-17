@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/untitled1.dir/test.cpp.o CMakeFiles/untitled1.dir/lightjson.cpp.o  -o untitled1 
