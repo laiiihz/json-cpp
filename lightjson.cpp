@@ -54,11 +54,16 @@ static int light_parse_value(light_context* c,light_value* value){
 
 int light_parse(light_value *value, const char* json){
     light_context c;
+    int ret;
     assert(value!=NULL);
     c.json=json;
     value->type=LIGHT_NULL;
     light_parse_whitespace(&c);
-    return light_parse_value(&c,value);
+    if((ret=light_parse_value(&c,value))==LIGHT_PARSE_OK){
+        light_parse_whitespace(&c);
+        if(*c.json!='\0')ret=LIGHT_PARSE_ROOT_NOT_SINGULAR;
+    }
+    return  ret;
 }
 
 light_type light_get_type(const light_value *value){
