@@ -25,6 +25,15 @@ static int test_pass=0;     //测试通过数
 
 #define EXPECT_EQ_INT(expect,actual) EXPECT_EQ_BASE((expect)==(actual),expect,actual, "%d")
 
+#define TEST_ERROR(error,json)\
+    do{\
+        light_value value;\
+        value.type=LIGHT_FALSE;\
+        EXPECT_EQ_INT(error,light_parse(&value,json));\
+        EXPECT_EQ_INT(LIGHT_NULL,light_get_type(&value));\
+    }while(0)
+
+
     static void test_parse_null(){
         light_value value;
         value.type=LIGHT_TRUE;
@@ -45,22 +54,14 @@ static int test_pass=0;     //测试通过数
         EXPECT_EQ_INT(LIGHT_FALSE,light_get_type(&value));
     }
     static void test_parse_expect_value(){
-        light_value value;
-        value.type=LIGHT_FALSE;
-        EXPECT_EQ_INT(LIGHT_PARSE_EXPECT_VALUE,light_parse(&value,""));
-        EXPECT_EQ_INT(LIGHT_NULL,light_get_type(&value));
+        TEST_ERROR(LIGHT_PARSE_EXPECT_VALUE,"");
+        TEST_ERROR(LIGHT_PARSE_EXPECT_VALUE," ");
     }
     static void test_parse_invalid_value(){
-        light_value value;
-        value.type=LIGHT_FALSE;
-        EXPECT_EQ_INT(LIGHT_PARSE_INVALID_VALUE,light_parse(&value,"nul"));
-        EXPECT_EQ_INT(LIGHT_NULL,light_get_type(&value));
+        TEST_ERROR(LIGHT_PARSE_INVALID_VALUE,"nul");
     }
     static void test_parse_root_not_singular(){
-        light_value value;
-        value.type=LIGHT_FALSE;
-        EXPECT_EQ_INT(LIGHT_PARSE_ROOT_NOT_SINGULAR,light_parse(&value,"null x"));
-        EXPECT_EQ_INT(LIGHT_NULL,light_get_type(&value));
+       TEST_ERROR(LIGHT_PARSE_ROOT_NOT_SINGULAR,"null x");
     }
     static void test_parse(){
         test_parse_null();
