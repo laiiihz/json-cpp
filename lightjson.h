@@ -32,5 +32,5 @@ enum{   LIGHT_PARSE_OK=0,
 int light_parse(light_value* value, const char* json);
 
 light_type light_get_type(const light_value* value);
-
+double light_get_number(const light_value* value);
 #endif //UNTITLED1_LIGHTJSON_H

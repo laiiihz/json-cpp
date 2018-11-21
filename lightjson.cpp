@@ -70,3 +70,8 @@ light_type light_get_type(const light_value *value){
     assert(value!=NULL);
     return value->type;
 }
+
+double light_get_number(const light_value *value){
+    assert(value!=NULL&&value.type==LIGHT_NUMBER);
+    return value->n;
+}
