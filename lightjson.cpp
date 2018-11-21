@@ -52,6 +52,14 @@ static int light_parse_number(light_context* c,light_value* value){
     value->type=LIGHT_NUMBER;
     return LIGHT_PARSE_OK;
 }
+/*
+ * double strtod(const char *str, char **endptr)
+ *  把参数 str 所指向的字符串转换为
+ *  一个浮点数（类型为 double 型）。
+ *  如果 endptr 不为空，则指向转换
+ *  中最后一个字符后的字符的指针会
+ *  存储在 endptr 引用的位置。
+ * */
 static int light_parse_value(light_context* c,light_value* value){
     switch (*c->json){
         case 'n':return light_parse_null(c,value);
