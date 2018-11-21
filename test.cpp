@@ -24,6 +24,7 @@ static int test_pass=0;     //测试通过数
     } while (0)
 
 #define EXPECT_EQ_INT(expect,actual) EXPECT_EQ_BASE((expect)==(actual),expect,actual, "%d")
+#define EXPECT_EQ_DOUBLE(expect,actual) EXPECT_EQ_BASE((expect)==(actual),expect,actual,"%.17g");
 
 #define TEST_ERROR(error,json)\
     do{\
@@ -33,6 +34,13 @@ static int test_pass=0;     //测试通过数
         EXPECT_EQ_INT(LIGHT_NULL,light_get_type(&value));\
     }while(0)
 
+#define TEST_NUMBER(expect, json)\
+    do {\
+        light_value value;\
+        EXPECT_EQ_INT(LIGHT_PARSE_OK, light_parse(&value, json));\
+        EXPECT_EQ_INT(LIGHT_NUMBER, light_get_type(&value));\
+        EXPECT_EQ_DOUBLE(expect, light_get_number(&value));\
+    } while(0)
 
     static void test_parse_null(){
         light_value value;
@@ -62,6 +70,10 @@ static int test_pass=0;     //测试通过数
     }
     static void test_parse_root_not_singular(){
        TEST_ERROR(LIGHT_PARSE_ROOT_NOT_SINGULAR,"null x");
+    }
+
+    static void test_parse_number(){
+        TEST_NUMBER(0.0,"0");
     }
     static void test_parse(){
         test_parse_null();
