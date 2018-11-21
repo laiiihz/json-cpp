@@ -17,29 +17,16 @@ static void light_parse_whitespace(light_context* c){
     c->json=p;
 }
 
-static int light_parse_null(light_context* c,light_value* value){
-    EXPECT(c,'n');
-    if(c->json[0]!='u'||c->json[1]!='l'||c->json[2]!='l')return LIGHT_PARSE_INVALID_VALUE;
-    c->json+=3;
-    value->type=LIGHT_NULL;
+static int light_parse_literal(light_context* c,light_value* value, const char* literal,light_type type){
+    size_t i;
+    EXPECT(c,literal[0]);
+    for(i=0;literal[i+1];i++)       //for 循环控制条件可以用字符表示，在字符为空时（\0）表示条件假，停止循环
+        if(c->json[i]!=literal[i+1])
+            return LIGHT_PARSE_INVALID_VALUE;
+    c->json+=i;
+    value->type=type;
     return LIGHT_PARSE_OK;
 }
-static int light_parse_true(light_context* c,light_value* value){
-    EXPECT(c,'t');
-    if(c->json[0]!='r'||c->json[1]!='u'||c->json[2]!='e')return LIGHT_PARSE_INVALID_VALUE;
-    c->json+=3;
-    value->type=LIGHT_TRUE;
-    return LIGHT_PARSE_OK;
-}
-
-static int light_parse_false(light_context* c,light_value* value){
-    EXPECT(c,'f');
-    if(c->json[0]!='a'||c->json[1]!='l'||c->json[2]!='s'||c->json[3]!='e')return LIGHT_PARSE_INVALID_VALUE;
-    c->json+=4;
-    value->type=LIGHT_FALSE;
-    return LIGHT_PARSE_OK;
-}
-
 
 static int light_parse_number(light_context* c,light_value* value){
     char* end;
@@ -62,9 +49,9 @@ static int light_parse_number(light_context* c,light_value* value){
  * */
 static int light_parse_value(light_context* c,light_value* value){
     switch (*c->json){
-        case 'n':return light_parse_null(c,value);
-        case 't':return light_parse_true(c,value);
-        case 'f':return light_parse_false(c,value);
+        case 'n':return light_parse_literal(c,value,"null",LIGHT_NULL);
+        case 't':return light_parse_literal(c,value,"true",LIGHT_TRUE);
+        case 'f':return light_parse_literal(c,value,"false",LIGHT_FALSE);
         case '\0':return LIGHT_PARSE_EXPECT_VALUE;
         default:return light_parse_number(c,value);
     }
