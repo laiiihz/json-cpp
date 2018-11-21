@@ -17,8 +17,11 @@ enum light_type{    LIGHT_NULL,
 };
 
 class light_value{
-public :light_type type;
+public :
+    light_type type;
+    double n;
 };
+
 
 enum{   LIGHT_PARSE_OK=0,
         LIGHT_PARSE_EXPECT_VALUE,
