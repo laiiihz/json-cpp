@@ -39,7 +39,7 @@ static int test_pass=0;     //测试通过数
         light_value value;\
         EXPECT_EQ_INT(LIGHT_PARSE_OK, light_parse(&value, json));\
         EXPECT_EQ_INT(LIGHT_NUMBER, light_get_type(&value));\
-        EXPECT_EQ_DOUBLE(expect, light_get_number(&value));\
+        EXPECT_EQ_DOUBLE(expect,  light_get_number(&value));\
     } while(0)
 
     static void test_parse_null(){
@@ -74,6 +74,9 @@ static int test_pass=0;     //测试通过数
 
     static void test_parse_number(){
         TEST_NUMBER(0.0,"0");
+        TEST_NUMBER(0.0,"-0");
+        TEST_NUMBER(0.0,"0.0");
+        TEST_NUMBER(1.0,"1");
     }
     static void test_parse(){
         test_parse_null();
@@ -82,6 +85,7 @@ static int test_pass=0;     //测试通过数
         test_parse_expect_value();
         test_parse_invalid_value();
         test_parse_root_not_singular();
+        test_parse_number();
     }
 
     int main(){

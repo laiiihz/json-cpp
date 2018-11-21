@@ -40,17 +40,28 @@ static int light_parse_false(light_context* c,light_value* value){
     return LIGHT_PARSE_OK;
 }
 
-//todo add light parse false
 
+static int light_parse_number(light_context* c,light_value* value){
+    char* end;
+    /*TODO validate number*/
+    value->n=strtod(c->json,&end);
+    if(c->json==end){
+        return LIGHT_PARSE_INVALID_VALUE;
+    }
+    c->json=end;
+    value->type=LIGHT_NUMBER;
+    return LIGHT_PARSE_OK;
+}
 static int light_parse_value(light_context* c,light_value* value){
     switch (*c->json){
         case 'n':return light_parse_null(c,value);
         case 't':return light_parse_true(c,value);
         case 'f':return light_parse_false(c,value);
         case '\0':return LIGHT_PARSE_EXPECT_VALUE;
-        default:return LIGHT_PARSE_INVALID_VALUE;
+        default:return light_parse_number(c,value);
     }
 }
+
 
 int light_parse(light_value *value, const char* json){
     light_context c;
