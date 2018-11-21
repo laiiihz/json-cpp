@@ -26,7 +26,8 @@ public :
 enum{   LIGHT_PARSE_OK=0,
         LIGHT_PARSE_EXPECT_VALUE,
         LIGHT_PARSE_INVALID_VALUE,
-        LIGHT_PARSE_ROOT_NOT_SINGULAR
+        LIGHT_PARSE_ROOT_NOT_SINGULAR,
+        LIGHT_PARSE_NUMBER_TOO_BIG
 };
 
 int light_parse(light_value* value, const char* json);

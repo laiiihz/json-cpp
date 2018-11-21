@@ -67,16 +67,27 @@ static int test_pass=0;     //测试通过数
     }
     static void test_parse_invalid_value(){
         TEST_ERROR(LIGHT_PARSE_INVALID_VALUE,"nul");
+        TEST_ERROR(LIGHT_PARSE_INVALID_VALUE,"?");
+
+
 
         /*invalid numbers*/
         TEST_ERROR(LIGHT_PARSE_INVALID_VALUE,"+0");  //自然数不包含加号
         TEST_ERROR(LIGHT_PARSE_INVALID_VALUE,"+12");
         TEST_ERROR(LIGHT_PARSE_INVALID_VALUE,"123.");
         TEST_ERROR(LIGHT_PARSE_INVALID_VALUE,".1234");//在小数点前和后至少有一个数字
-
+        TEST_ERROR(LIGHT_PARSE_INVALID_VALUE,"INF");
     }
     static void test_parse_root_not_singular(){
        TEST_ERROR(LIGHT_PARSE_ROOT_NOT_SINGULAR,"null x");
+       TEST_ERROR(LIGHT_PARSE_ROOT_NOT_SINGULAR,"0123");//0后面应该是.或没东西
+        TEST_ERROR(LIGHT_PARSE_ROOT_NOT_SINGULAR,"0x123");
+        TEST_ERROR(LIGHT_PARSE_ROOT_NOT_SINGULAR,"0x0");
+    }
+
+    static void test_parse_number_too_big(){
+        TEST_ERROR(LIGHT_PARSE_NUMBER_TOO_BIG,"1e309");
+        TEST_ERROR(LIGHT_PARSE_NUMBER_TOO_BIG,"-1e309");
     }
 
     static void test_parse_number(){
