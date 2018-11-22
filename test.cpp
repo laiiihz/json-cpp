@@ -25,8 +25,12 @@ static int test_pass=0;     //测试通过数
 
 #define EXPECT_EQ_INT(expect,actual) EXPECT_EQ_BASE((expect)==(actual),expect,actual, "%d")
 #define EXPECT_EQ_DOUBLE(expect,actual) EXPECT_EQ_BASE((expect)==(actual),expect,actual,"%.17g");
+#define EXPECT_EQ_STRING(expect,actual,alength) \
+    EXPECT_EQ_BASE(sizeof(expect)-1==alength&&memcmp(expect,actual,alength)==0,expect,actual,"%s")
+#define EXPECT_EQ_TRUE(actual)   EXPECT_EQ_BASE((actual)!=0,"true","false","%s")
+#define EXPECT_EQ_FALSE(actual) EXPECT_EQ_BASE((actual)==0,"false","true","%s")
 
-#define TEST_ERROR(error,json)\
+    #define TEST_ERROR(error,json)\
     do{\
         light_value value;\
         value.type=LIGHT_FALSE;\
@@ -44,13 +48,15 @@ static int test_pass=0;     //测试通过数
 
     static void test_parse_null(){
         light_value value;
-        value.type=LIGHT_TRUE;
+        light_init(&value);
+        light_set_boolean(&value,0);
         EXPECT_EQ_INT(LIGHT_PARSE_OK,light_parse(&value,"null"));
         EXPECT_EQ_INT(LIGHT_NULL,light_get_type(&value));
     }
     static void test_parse_true(){
         light_value value;
-        value.type=LIGHT_TRUE;
+        light_init(&value);
+        light_set_boolean(&value,1);
         EXPECT_EQ_INT(LIGHT_PARSE_OK,light_parse(&value,"true"));
         EXPECT_EQ_INT(LIGHT_TRUE,light_get_type(&value));
 
@@ -127,6 +133,13 @@ static int test_pass=0;     //测试通过数
 
 
     }
+
+    static void test_access_string(){
+        light_value value;
+        light_init(&value);
+        light_set_string(&value,"",0);
+    }
+
     static void test_parse(){
         test_parse_null();
         test_parse_false();
@@ -136,6 +149,7 @@ static int test_pass=0;     //测试通过数
         test_parse_root_not_singular();
         test_parse_number();
         test_parse_number_too_big();
+        test_access_string();
     }
 
     int main(){

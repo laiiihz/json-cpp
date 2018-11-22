@@ -5,7 +5,6 @@
 #include "lightjson.h"
 #include <assert.h>
 #include <cmath>
-#include <cstring>
 
 #define EXPECT(c,ch)            do{assert(*c->json==(ch));c->json++;}while(0)
 
@@ -119,7 +118,7 @@ void light_free(light_value* value){
     value->type=LIGHT_NULL;
 }
 
-void light_set_string(light_value* value , const char* s ,size_t length){
+void light_set_string( light_value* value , const char* s ,size_t length){
     assert(value!=NULL&&(s!=NULL||length==0));
     light_free(value);
     value->un.s.s=new char[length+1];
@@ -127,4 +126,24 @@ void light_set_string(light_value* value , const char* s ,size_t length){
     value->un.s.s[length]='\0';
     value->un.s.length=length;
     value->type=LIGHT_STRING;
+}
+
+void light_set_number(light_value *value, double number) {
+
+}
+
+int light_get_boolean(const light_value *value) {
+    return 0;
+}
+
+size_t light_get_string_length(const light_value *value) {
+    return 0;
+}
+
+const char *light_get_string(const light_value *value) {
+    return nullptr;
+}
+
+void light_set_boolean(light_value *value, int b) {
+
 }
