@@ -12,6 +12,7 @@
 #define ISDIGIT(ch)             ((ch)>='0'&&(ch)<='9')
 #define ISDIGIT1TO9(ch)     ((ch)>='1'&&(ch)<='9')
 
+
 class light_context{
 public:const char* json;
 };
