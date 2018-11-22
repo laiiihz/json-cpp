@@ -25,7 +25,7 @@ public :
             char* s;
             size_t  length;
         }s;
-    };
+    }un;
 };
 
 
