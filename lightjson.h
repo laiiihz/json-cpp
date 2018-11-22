@@ -20,6 +20,8 @@ class light_value{
 public :
     light_type type;
     double n;
+    char* s;
+    size_t  length;
 };
 
 

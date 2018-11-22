@@ -77,6 +77,9 @@ static int test_pass=0;     //测试通过数
         TEST_ERROR(LIGHT_PARSE_INVALID_VALUE,"123.");
         TEST_ERROR(LIGHT_PARSE_INVALID_VALUE,".1234");//在小数点前和后至少有一个数字
         TEST_ERROR(LIGHT_PARSE_INVALID_VALUE,"INF");
+        TEST_ERROR(LIGHT_PARSE_INVALID_VALUE, "inf");
+        TEST_ERROR(LIGHT_PARSE_INVALID_VALUE, "NAN");
+        TEST_ERROR(LIGHT_PARSE_INVALID_VALUE, "nan");
     }
     static void test_parse_root_not_singular(){
        TEST_ERROR(LIGHT_PARSE_ROOT_NOT_SINGULAR,"null x");
@@ -94,6 +97,7 @@ static int test_pass=0;     //测试通过数
         TEST_NUMBER(0.0,"0");
         TEST_NUMBER(0.0,"-0");
         TEST_NUMBER(0.0,"0.0");
+        TEST_NUMBER(-0.0,"-0.0");
         TEST_NUMBER(1.0,"1");
         TEST_NUMBER(-1.0,"-1");
         TEST_NUMBER(1.5,"1.5");
@@ -101,6 +105,10 @@ static int test_pass=0;     //测试通过数
         TEST_NUMBER(3.121212,"3.121212");
         TEST_NUMBER(1E10,"1E10");
         TEST_NUMBER(1e10,"1e10");
+        TEST_NUMBER(1E+10, "1E+10");
+        TEST_NUMBER(1E-10, "1E-10");
+        TEST_NUMBER(-1E10, "-1E10");
+        TEST_NUMBER(-1e10, "-1e10");
         TEST_NUMBER(-1E+10, "-1E+10");
         TEST_NUMBER(-1E-10, "-1E-10");
         TEST_NUMBER(1.234E+10, "1.234E+10");
