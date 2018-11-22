@@ -105,17 +105,31 @@ light_type light_get_type(const light_value *value){
     return value->type;
 }
 
-double light_get_number(const light_value *value){
-    assert(value!= nullptr&&value->type==LIGHT_NUMBER);
-    return value->un.n;
 
-}
 
 void light_free(light_value* value){
     assert(value!= nullptr);
     if(value->type==LIGHT_STRING)
         delete(value->un.s.s);
     value->type=LIGHT_NULL;
+}
+
+
+
+void light_set_number(light_value *value, double number) {
+    //TODO set number
+}
+double light_get_number(const light_value *value){
+    assert(value!= nullptr&&value->type==LIGHT_NUMBER);
+    return value->un.n;
+}
+
+void light_set_boolean(light_value *value, int b) {
+    //TODO set boolean
+}
+int light_get_boolean(const light_value *value) {
+    //TODO get boolean
+    return 0;
 }
 
 void light_set_string( light_value* value , const char* s ,size_t length){
@@ -127,26 +141,15 @@ void light_set_string( light_value* value , const char* s ,size_t length){
     value->un.s.length=length;
     value->type=LIGHT_STRING;
 }
-
-void light_set_number(light_value *value, double number) {
-    //TODO set number
+const char *light_get_string(const light_value *value) {
+    //TODO get string
+    return nullptr;
 }
-
-int light_get_boolean(const light_value *value) {
-    //TODO get boolean
-    return 0;
-}
-
 size_t light_get_string_length(const light_value *value) {
     //TODO get string length
     return 0;
 }
 
-const char *light_get_string(const light_value *value) {
-    //TODO get string
-    return nullptr;
-}
 
-void light_set_boolean(light_value *value, int b) {
-    //TODO set boolean
-}
+
+
