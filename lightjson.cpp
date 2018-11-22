@@ -4,8 +4,12 @@
 
 #include "lightjson.h"
 #include <assert.h>
+#include <cmath>
 
-#define EXPECT(c,ch)    do{assert(*c->json==(ch));c->json++;}while(0)
+#define EXPECT(c,ch)            do{assert(*c->json==(ch));c->json++;}while(0)
+
+#define ISDIGIT(ch)             ((ch)>='0'&&(ch)<='9')
+#define ISDIGIT1TO9(ch)     ((ch)>='1'&&(ch)<='9')
 
 class light_context{
 public:const char* json;
@@ -30,13 +34,33 @@ static int light_parse_literal(light_context* c,light_value* value, const char* 
 
 static int light_parse_number(light_context* c,light_value* value){
     char* end;
-    /*TODO validate number*/
-    value->n=strtod(c->json,&end);
-    if(c->json==end){
-        return LIGHT_PARSE_INVALID_VALUE;
+    const char *p=c->json;
+    if(*p=='-')p++;
+    if(*p=='0')p++;
+    else {
+        if(!ISDIGIT1TO9(*p))return LIGHT_PARSE_INVALID_VALUE;
+        for(p++;ISDIGIT(*p);p++);
     }
-    c->json=end;
+    if(*p=='.'){
+        p++;
+        if(!ISDIGIT(*p))return LIGHT_PARSE_INVALID_VALUE;
+        for(p++;ISDIGIT(*p);p++);
+    }
+    if(*p=='e'||*p=='E'){
+        p++;
+        if(*p=='+'||*p=='-')p++;
+        if(!ISDIGIT(*p))return LIGHT_PARSE_INVALID_VALUE;
+        for(p++;ISDIGIT(*p);p++);
+    }
+    /*
+     *          http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
+     * */
+    errno=0;
+    value->n=strtod(c->json,NULL);
+    if(errno==ERANGE&&(value->n==HUGE_VAL||value->n==-HUGE_VAL))
+        return LIGHT_PARSE_NUMBER_TOO_BIG;
     value->type=LIGHT_NUMBER;
+    c->json=p;
     return LIGHT_PARSE_OK;
 }
 /*
@@ -67,7 +91,10 @@ int light_parse(light_value *value, const char* json){
     light_parse_whitespace(&c);
     if((ret=light_parse_value(&c,value))==LIGHT_PARSE_OK){
         light_parse_whitespace(&c);
-        if(*c.json!='\0')ret=LIGHT_PARSE_ROOT_NOT_SINGULAR;
+        if(*c.json!='\0'){
+            value->type=LIGHT_NULL;
+            ret=LIGHT_PARSE_ROOT_NOT_SINGULAR;
+        }
     }
     return  ret;
 }
