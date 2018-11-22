@@ -138,6 +138,10 @@ static int test_pass=0;     //测试通过数
         light_value value;
         light_init(&value);
         light_set_string(&value,"",0);
+        EXPECT_EQ_STRING("",light_get_string(&value),light_get_string_length(&value));
+        light_set_string(&value,"Hello",5);
+        EXPECT_EQ_STRING("Hello",light_get_string(&value),light_get_string_length(&value));
+        light_free(&value);
     }
 
     static void test_parse(){

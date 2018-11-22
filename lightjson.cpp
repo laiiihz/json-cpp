@@ -129,21 +129,24 @@ void light_set_string( light_value* value , const char* s ,size_t length){
 }
 
 void light_set_number(light_value *value, double number) {
-
+    //TODO set number
 }
 
 int light_get_boolean(const light_value *value) {
+    //TODO get boolean
     return 0;
 }
 
 size_t light_get_string_length(const light_value *value) {
+    //TODO get string length
     return 0;
 }
 
 const char *light_get_string(const light_value *value) {
+    //TODO get string
     return nullptr;
 }
 
 void light_set_boolean(light_value *value, int b) {
-
+    //TODO set boolean
 }
