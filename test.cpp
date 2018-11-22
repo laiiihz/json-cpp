@@ -127,6 +127,7 @@ static int test_pass=0;     //测试通过数
         test_parse_invalid_value();
         test_parse_root_not_singular();
         test_parse_number();
+        test_parse_number_too_big();
     }
 
     int main(){
