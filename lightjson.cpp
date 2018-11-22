@@ -13,7 +13,10 @@
 
 
 class light_context{
-public:const char* json;
+public:
+    const char* json;
+    char* stack;
+    size_t size,top;        //add stack
 };
 
 static void light_parse_whitespace(light_context* c){
