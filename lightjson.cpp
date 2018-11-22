@@ -57,7 +57,7 @@ static int light_parse_number(light_context* c,light_value* value){
      *          http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
      * */
     errno=0;
-    value->un.n=strtod(c->json,NULL);
+    value->un.n=strtod(c->json, nullptr);
     if(errno==ERANGE&&(value->un.n==HUGE_VAL||value->un.n==-HUGE_VAL))
         return LIGHT_PARSE_NUMBER_TOO_BIG;
     value->type=LIGHT_NUMBER;
@@ -86,7 +86,7 @@ static int light_parse_value(light_context* c,light_value* value){
 int light_parse(light_value *value, const char* json){
     light_context c;
     int ret;
-    assert(value!=NULL);
+    assert(value!= nullptr);
     c.json=json;
     value->type=LIGHT_NULL;
     light_parse_whitespace(&c);
@@ -101,25 +101,25 @@ int light_parse(light_value *value, const char* json){
 }
 
 light_type light_get_type(const light_value *value){
-    assert(value!=NULL);
+    assert(value!= nullptr);
     return value->type;
 }
 
 double light_get_number(const light_value *value){
-    assert(value!=NULL&&value->type==LIGHT_NUMBER);
+    assert(value!= nullptr&&value->type==LIGHT_NUMBER);
     return value->un.n;
 
 }
 
 void light_free(light_value* value){
-    assert(value!=NULL);
+    assert(value!= nullptr);
     if(value->type==LIGHT_STRING)
         delete(value->un.s.s);
     value->type=LIGHT_NULL;
 }
 
 void light_set_string( light_value* value , const char* s ,size_t length){
-    assert(value!=NULL&&(s!=NULL||length==0));
+    assert(value!= nullptr&&(s!= nullptr||length==0));
     light_free(value);
     value->un.s.s=new char[length+1];
     memcpy(value->un.s.s,s,length);
