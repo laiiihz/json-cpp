@@ -19,9 +19,13 @@ enum light_type{    LIGHT_NULL,
 class light_value{
 public :
     light_type type;
-    double n;
-    char* s;
-    size_t  length;
+    union {             //n 和 结构体s共享内存
+        double n;
+        struct {
+            char* s;
+            size_t  length;
+        }s;
+    };
 };
 
 
