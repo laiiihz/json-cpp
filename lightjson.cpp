@@ -186,6 +186,11 @@ static void*  light_context_push(light_context* c,size_t size){
     c->top+=size;
     return ret;
 }
+//TODO ??
+static void* light_context_pop(light_context *c ,size_t size){
+    assert(c->top>=size);
+    return c->stack+(c->top-=size);
+}
 
 
 
