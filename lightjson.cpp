@@ -12,6 +12,14 @@
 #define ISDIGIT1TO9(ch)     ((ch)>='1'&&(ch)<='9')
 
 
+/*
+ * 定义堆栈大小
+ * */
+#ifndef  LIGHT_PARSE_STACK_INIT_SIZE
+#define LIGHT_PARSE_STACK_INIT_SIZE 256
+#endif
+
+
 class light_context{
 public:
     const char* json;
@@ -155,6 +163,28 @@ const char *light_get_string(const light_value *value) {
 size_t light_get_string_length(const light_value *value) {
     //TODO get string length
     return 0;
+}
+
+
+
+
+
+/*
+ * 堆栈实现     //TODO ??
+ * */
+
+static void*  light_context_push(light_context* c,size_t size){
+    void* ret;
+    assert(size>0);
+    if(c.top+size>=c->size){
+        if(c->size==0)
+            c->size=LIGHT_PARSE_STACK_INIT_SIZE;
+        while (c.top+size>=c->size)
+            c->size+=(char*)realloc(c->stack,c->size);
+    }
+    ret=c->stack+c->top;
+    c->top+=size;
+    return ret;
 }
 
 
