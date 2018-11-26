@@ -91,7 +91,9 @@ int light_parse(light_value *value, const char* json){
     int ret;
     assert(value!= nullptr);
     c.json=json;
-    value->type=LIGHT_NULL;
+    c.stack= nullptr;
+    c.size=c.top=0;
+    light_init(value);
     light_parse_whitespace(&c);
     if((ret=light_parse_value(&c,value))==LIGHT_PARSE_OK){
         light_parse_whitespace(&c);
@@ -100,6 +102,8 @@ int light_parse(light_value *value, const char* json){
             ret=LIGHT_PARSE_ROOT_NOT_SINGULAR;
         }
     }
+    assert(c.top==0);
+    delete(c.stack);
     return  ret;
 }
 
